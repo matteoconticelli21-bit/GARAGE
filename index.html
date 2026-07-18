@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestione Scadenze Auto</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Collegamento al file manifest per la PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2c3e50">
 </head>
 <body>
 
@@ -88,5 +91,14 @@
     </div>
 
     <script src="script.js"></script>
+    
+    <!-- Script per attivare e registrare il Service Worker per il funzionamento offline -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js')
+                .then(() => console.log('PWA configurata con successo!'))
+                .catch(err => console.log('Errore configurazione PWA:', err));
+        }
+    </script>
 </body>
 </html>
