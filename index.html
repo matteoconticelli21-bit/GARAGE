@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Scadenze Auto</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>🚗 Il Mio Garage</h1>
+    </header>
+
+    <main>
+        <!-- VISTA 1: IL GARAGE PRINCIPALE -->
+        <div id="vista-garage">
+            <section id="form-sezione">
+                <button type="button" id="toggle-form-btn" onclick="toggleNuovoInserimento()">➕ Inserisci Nuova Auto</button>
+                
+                <div id="form-collassabile">
+                    <form id="auto-form" style="margin-top: 15px;">
+                        <input type="text" id="marca" placeholder="Marca (es. Fiat)" required>
+                        <input type="text" id="modello" placeholder="Modello (es. Panda)" required>
+                        <input type="text" id="targa" placeholder="Targa" required>
+                        
+                        <label for="scadenzaBollo">Scadenza Bollo:</label>
+                        <input type="date" id="scadenzaBollo" required>
+                        
+                        <label for="scadenzaAssicurazione">Scadenza Assicurazione:</label>
+                        <input type="date" id="scadenzaAssicurazione" required>
+                        
+                        <label for="scadenzaRevisione">Scadenza Revisione:</label>
+                        <input type="date" id="scadenzaRevisione" required>
+
+                        <button type="submit" id="submit-btn">Aggiungi Auto</button>
+                    </form>
+                </div>
+            </section>
+
+            <section id="garage-sezione">
+                <h2>Le Mie Auto</h2>
+                <div id="lista-auto"></div>
+            </section>
+        </div>
+
+        <!-- VISTA 2: CRONOLOGIA INTERVENTI DETTAGLIATA -->
+        <div id="vista-dettaglio" style="display: none;">
+            <button type="button" id="btn-torna-home" onclick="mostraVistaGarage()">⬅️ Torna al Garage</button>
+            
+            <section class="dettaglio-auto-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <div>
+                        <h2 id="dettaglio-titolo" style="margin: 0; font-size: 1.4rem;"></h2>
+                        <span id="dettaglio-targa" style="background: #e1b12c; color: white; padding: 2px 6px; font-size: 0.8rem; font-weight: bold; border-radius: 4px; text-transform: uppercase; display: inline-block; margin-top: 4px;"></span>
+                    </div>
+                    <button type="button" onclick="apriPopupNotaAutomobilistica()" style="background-color: #3498db; color: white; border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.85rem;">🔧 Aggiungi Manutenzione</button>
+                </div>
+            </section>
+
+            <section>
+                <h2>🔧 Storico Manutenzioni</h2>
+                <div id="timeline-manutenzioni"></div>
+            </section>
+        </div>
+    </main>
+
+    <!-- FINESTRELLA POPUP MANUTENZIONI -->
+    <div id="popup-nota" class="popup-overlay">
+        <div class="popup-contenuto">
+            <h3 id="popup-titolo-azione">Aggiungi Manutenzione</h3>
+            <p id="popup-info-auto" style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 15px;"></p>
+            
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <input type="text" id="manutenzione-testo" placeholder="Intervento (es: Cambio olio e filtri)" required>
+                
+                <label for="manutenzione-data" style="font-size: 0.85rem; color: #7f8c8d; margin-bottom: -5px;">Data Intervento:</label>
+                <input type="date" id="manutenzione-data" required>
+                
+                <input type="number" id="manutenzione-km" placeholder="Chilometraggio (es: 68000)" required>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button type="button" id="btn-salva-popup" onclick="salvaNota()" style="flex: 1; background-color: #2ecc71; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; padding: 10px;">Salva</button>
+                <button type="button" onclick="chiudiPopup()" style="flex: 1; background-color: #7f8c8d; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; padding: 10px;">Annulla</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
