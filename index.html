@@ -18,9 +18,9 @@
         </header>
 
         <main>
-            <!-- Pulsante sopra al titolo delle auto -->
+            <!-- Pulsante sopra al titolo delle auto (Ingrandito e rinominato) -->
             <div class="blocco-azione-superiore">
-                <button id="btn-apri-form" onclick="mostraFormAuto()">+ Auto</button>
+                <button id="btn-apri-form" class="btn-grande" onclick="mostraFormAuto()">Aggiungi Nuova Auto</button>
             </div>
             <h2>Le Mie Auto</h2>
             <div id="lista-auto"></div>
@@ -37,9 +37,9 @@
             <div class="opzione-gruppo">
                 <label for="select-tema">Tema dell'applicazione</label>
                 <select id="select-tema" onchange="cambiaTema(this.value)">
-                    <option value="auto">Automatico (Sistema)</option>
                     <option value="chiaro">Chiaro</option>
                     <option value="scuro">Scuro</option>
+                    <option value="auto">Automatico (Sistema)</option>
                 </select>
             </div>
             <div class="opzione-gruppo info-futuro">
@@ -56,11 +56,11 @@
         </header>
         <form id="form-auto" onsubmit="salvaNuovaAuto(event)">
             <div class="form-group">
-                <label for="marcaAuto">Marca *</label>
+                <label for="marcaAuto">Marca</label>
                 <input type="text" id="marcaAuto" required placeholder="Es. Fiat">
             </div>
             <div class="form-group">
-                <label for="modelloAuto">Modello *</label>
+                <label for="modelloAuto">Modello</label>
                 <input type="text" id="modelloAuto" required placeholder="Es. Panda">
             </div>
             <div class="form-group">
@@ -111,8 +111,9 @@
 
         <!-- Storico Manutenzioni -->
         <div class="sezione-manutenzioni">
+            <!-- Pulsante ingrandito e rinominato -->
             <div class="blocco-azione-superiore">
-                <button id="btn-toggle-manutenzione" class="btn-compatto" onclick="toggleFormManutenzione()">+ Nuova Manutenzione</button>
+                <button id="btn-toggle-manutenzione" class="btn-grande-manutenzione" onclick="toggleFormManutenzione()">Nuova Manutenzione/Intervento</button>
             </div>
             <div class="header-manutenzioni">
                 <h3>Storico Manutenzioni</h3>

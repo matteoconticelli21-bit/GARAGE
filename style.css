@@ -1,7 +1,7 @@
 :root, html[data-theme="light"] {
     --bg-principale: #f5f6fa;
     --bg-container: #ffffff;
-    --bg-elementi: #f8f9fa; /* Colore chiarissimo identico allo screenshot */
+    --bg-elementi: #f8f9fa;
     --bg-input: #ffffff;
     --testo-primario: #2c3e50;
     --testo-secondario: #7f8c8d;
@@ -56,6 +56,38 @@ html[data-theme="dark"] .header-main h1 {
     display: flex;
     justify-content: flex-start;
     margin-bottom: 15px;
+    width: 100%;
+}
+
+/* Pulsante principale Ingrandito del 50% */
+.btn-grande {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 21px; /* Incrementato del 50% */
+    font-size: 19.5px;    /* Incrementato del 50% (da 13px base a ~19.5px) */
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(52, 152, 219, 0.3);
+}
+
+/* Pulsante Nuova Manutenzione Ingrandito del 50% */
+.btn-grande-manutenzione {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 9px 18px;  /* Incrementato del 50% */
+    font-size: 19.5px;   /* Incrementato del 50% */
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+}
+
+.btn-grande-manutenzione.btn-chiudi {
+    background-color: #7f8c8d;
 }
 
 h2 {
@@ -103,13 +135,13 @@ button {
     display: none !important;
 }
 
-/* --- GRAFICA RILEVATA DALLO SCREENSHOT --- */
+/* --- DETTAGLI CARD AUTO --- */
 .card-auto-estesa {
     background: var(--bg-elementi);
     border-radius: 12px;
     margin-bottom: 16px;
     border: 1px solid var(--bordo);
-    border-left: 5px solid #3498db; /* Striscia azzurra a sinistra */
+    border-left: 5px solid #3498db;
     padding: 18px;
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(0,0,0,0.02);
@@ -127,7 +159,7 @@ button {
     margin: 0;
     font-size: 20px;
     font-weight: bold;
-    color: #2980b9; /* Tonalità blu del titolo */
+    color: #2980b9;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -142,7 +174,7 @@ html[data-theme="dark"] .info-principali h3 {
 }
 
 .badge-targa {
-    background-color: #dbaf28; /* Giallo targa dello screenshot */
+    background-color: #dbaf28;
     color: white;
     font-weight: bold;
     font-size: 11px;
@@ -196,7 +228,7 @@ html[data-theme="dark"] .linea-separatrice {
 }
 
 .scadenza-etichetta {
-    color: #7f8c8d; /* Testo grigio dello screenshot */
+    color: #7f8c8d;
 }
 html[data-theme="dark"] .scadenza-etichetta {
     color: var(--testo-secondario);
@@ -213,7 +245,6 @@ html[data-theme="dark"] .data-scadenza {
     font-weight: bold;
 }
 
-/* Colori precisi dei testi degli stati */
 .stato-nero { color: #000000; font-weight: bold; }
 .stato-rosso { color: #e74c3c; font-weight: bold; }
 .stato-arancione { color: #dbaf28; font-weight: bold; }
@@ -282,11 +313,6 @@ html[data-theme="dark"] .stato-nero {
     margin-bottom: 15px;
     border-bottom: 1px dashed var(--bordo);
     padding-bottom: 8px;
-}
-.btn-compatto {
-    background-color: #3498db;
-    padding: 6px 12px;
-    font-size: 13px;
 }
 #form-manutenzione {
     background: var(--bg-elementi);

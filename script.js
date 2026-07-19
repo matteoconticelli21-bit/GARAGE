@@ -27,15 +27,15 @@ function salvaDati() {
     localStorage.setItem('automobili', JSON.stringify(listaAuto));
 }
 
-// --- GESTIONE TEMA ---
+// --- GESTIONE TEMA (Chiaro di default) ---
 function inizializzaTema() {
-    const temaSalvato = localStorage.getItem('tema-selezionato') || 'auto';
+    const temaSalvato = localStorage.getItem('tema-selezionato') || 'chiaro';
     const selectTema = document.getElementById('select-tema');
     if (selectTema) selectTema.value = temaSalvato;
     applicatema(temaSalvato);
 
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-        if (localStorage.getItem('tema-selezionato') === 'auto' || !localStorage.getItem('tema-selezionato')) {
+        if (localStorage.getItem('tema-selezionato') === 'auto') {
             applicatema('auto');
         }
     });
@@ -88,11 +88,11 @@ function toggleFormManutenzione() {
     
     if (form.classList.contains('hidden')) {
         form.classList.remove('hidden');
-        btn.innerText = '✕ Chiudi';
+        btn.innerText = '✕ Chiudi Modulo';
         btn.classList.add('btn-chiudi');
     } else {
         form.classList.add('hidden');
-        btn.innerText = '+ Nuova Manutenzione';
+        btn.innerText = 'Nuova Manutenzione/Intervento';
         btn.classList.remove('btn-chiudi');
     }
 }
@@ -115,7 +115,7 @@ function mostraDettaglioAuto(id) {
 
     document.getElementById('form-manutenzione').classList.add('hidden');
     const btnToggle = document.getElementById('btn-toggle-manutenzione');
-    btnToggle.innerText = '+ Nuova Manutenzione';
+    btnToggle.innerText = 'Nuova Manutenzione/Intervento';
     btnToggle.classList.remove('btn-chiudi');
 
     const divScadenze = document.getElementById('scadenze-auto-dettaglio');
