@@ -23,7 +23,7 @@
         </main>
     </div>
 
-    <!-- FORM INSERIMENTO/MODIFICA AUTO -->
+    <!-- FORM INSERIMENTO AUTO -->
     <div id="schermata-form-auto" class="container hidden">
         <header>
             <button class="btn-back" onclick="mostraPrincipale()">⬅ Indietro</button>
@@ -50,25 +50,25 @@
         </form>
     </div>
 
-    <!-- SCHERMATA DETTAGLIO AUTO (MENU INTERNO) -->
+    <!-- SCHERMATA DETTAGLIO AUTO -->
     <div id="schermata-dettaglio" class="container hidden">
         <header>
             <button class="btn-back" onclick="mostraPrincipale()">⬅ Indietro</button>
             <h2 id="dettaglio-titolo-auto">Dettaglio Auto</h2>
         </header>
 
-        <!-- Box Nota Generica -->
+        <!-- Sezione Nota Libera Generica -->
         <div id="sezione-nota-generica">
             <p><strong>Nota Libera:</strong></p>
             <div id="testo-nota-visualizzato">Nessuna nota inserita.</div>
             <div id="area-modifica-nota" class="hidden">
-                <textarea id="input-nota-generica" rows="3" placeholder="Scrivi qui annotazioni libere (es. codice vernice, misura gomme...)"></textarea>
+                <textarea id="input-nota-generica" rows="3" placeholder="Scrivi qui annotazioni libere (es. codice vernice, gomme...)"></textarea>
                 <button class="btn-salva-nota" onclick="salvaNotaGenerica()">Salva Nota</button>
             </div>
-            <button id="btn-modifica-nota" onclick="mostraAreaNota()">Aggiungi/Modifica Nota</button>
+            <button id="btn-modifica-nota" class="btn-antracite" onclick="mostraAreaNota()">Aggiungi/Modifica Nota</button>
         </div>
 
-        <!-- Sezione Scadenze -->
+        <!-- Stato Scadenze -->
         <div class="sezione-scadenze-dettaglio">
             <h3>Stato Scadenze</h3>
             <div id="scadenze-auto-dettaglio"></div>
@@ -78,12 +78,20 @@
         <div class="sezione-manutenzioni">
             <h3>Storico Interventi</h3>
             
-            <!-- Input Manutenzioni -->
             <div id="form-manutenzione">
-                <input type="text" id="manutenzione-desc" placeholder="Descrizione intervento">
-                <input type="date" id="manutenzione-data">
-                <input type="number" id="manutenzione-km" placeholder="Km attuali">
-                <button onclick="aggiungiManutenzione()">Aggiungi Manutenzione</button>
+                <div class="form-group-inline">
+                    <label>Intervento:</label>
+                    <input type="text" id="manutenzione-desc" placeholder="Descrizione">
+                </div>
+                <div class="form-group-inline">
+                    <label>Data:</label>
+                    <input type="date" id="manutenzione-data">
+                </div>
+                <div class="form-group-inline">
+                    <label>Km:</label>
+                    <input type="number" id="manutenzione-km" placeholder="Km attuali">
+                </div>
+                <button class="btn-antracite" onclick="aggiungiManutenzione()">Aggiungi Manutenzione</button>
             </div>
 
             <div id="lista-manutenzioni"></div>

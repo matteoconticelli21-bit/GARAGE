@@ -1,95 +1,110 @@
+/* Layout scuro coordinato ed angoli arrotondati originale */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #f4f7f6;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background-color: #1e272e;
+    color: #f5f6fa;
     margin: 0;
     padding: 0;
-    color: #333;
 }
 
 .container {
-    max-width: 600px;
-    margin: 0 auto;
+    max-width: 500px;
+    margin: 20px auto;
     padding: 20px;
-    box-sizing: border-box;
+    background-color: #2f3640;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
+    border-bottom: 1px solid #718093;
+    padding-bottom: 15px;
     margin-bottom: 20px;
 }
 
 h1, h2, h3 {
-    margin: 0;
-    color: #2c3e50;
+    margin: 5px 0;
+    color: #f5f6fa;
 }
 
+/* Pulsanti principali */
 button {
-    background-color: #3498db;
-    color: white;
+    background-color: #718093;
+    color: #f5f6fa;
     border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
+    padding: 10px 16px;
+    border-radius: 6px;
     font-weight: bold;
     cursor: pointer;
 }
 
+button:active {
+    background-color: #2f3640;
+}
+
 .btn-back {
-    background-color: #7f8c8d;
+    background-color: #487eb0;
+}
+
+.btn-submit {
+    width: 100%;
+    background-color: #4cd137;
+    padding: 12px;
+}
+
+.btn-antracite {
+    background-color: #3d3d3d;
+    width: 100%;
+    margin-top: 5px;
 }
 
 .hidden {
     display: none !important;
 }
 
+/* Schede Elementi */
 .card-auto {
-    background: white;
+    background: #353b48;
     padding: 15px;
     border-radius: 8px;
-    margin-bottom: 15px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    cursor: pointer;
+    margin-bottom: 12px;
+    border: 1px solid #718093;
 }
 
 .mini-scadenze {
-    margin-top: 10px;
+    margin-top: 8px;
     display: flex;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 6px;
 }
 
-/* Stili dinamici per i badge di avviso */
+/* Badge di avviso stato configurati sulle soglie */
 .badge {
     padding: 4px 8px;
     border-radius: 4px;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
-    color: white;
 }
 
-.badge.verde { background-color: #2ecc71; }
-.badge.arancione { background-color: #e67e22; }
-.badge.rosso { background-color: #e74c3c; }
-.badge.nero { background-color: #000000; }
-.badge.grigio { background-color: #95a5a6; color: #333; }
+.badge.verde { background-color: #4cd137; color: #fff; }
+.badge.arancione { background-color: #e1b12c; color: #fff; }
+.badge.rosso { background-color: #e84118; color: #fff; }
+.badge.nero { background-color: #000000; color: #fff; }
+.badge.grigio { background-color: #7f8c8d; color: #fff; }
 
-/* Box Nota Libera */
+/* Box Note Libere integrato */
 #sezione-nota-generica {
-    background: #fff;
-    padding: 15px;
+    background: #353b48;
+    padding: 12px;
     border-radius: 8px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    border-left: 4px solid #3498db;
+    margin: 15px 0;
+    border-left: 4px solid #487eb0;
 }
 
 #testo-nota-visualizzato {
     font-style: italic;
-    color: #555;
-    margin: 8px 0;
+    color: #dcdde1;
+    margin: 6px 0;
     white-space: pre-wrap;
 }
 
@@ -97,70 +112,69 @@ button {
     width: 100%;
     box-sizing: border-box;
     padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-family: inherit;
-    resize: vertical;
-    margin-bottom: 8px;
+    border-radius: 4px;
+    background-color: #2f3640;
+    color: #fff;
+    border: 1px solid #718093;
 }
 
 .btn-salva-nota {
-    background-color: #2ecc71;
+    background-color: #4cd137;
     width: 100%;
+    margin-top: 4px;
 }
 
-/* Form e dettagli */
+/* Gestione Campi */
 .form-group {
     margin-bottom: 15px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+    margin-bottom: 6px;
 }
 
 .form-group input {
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.btn-submit {
-    width: 100%;
-    background-color: #2ecc71;
-    padding: 12px;
-    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #718093;
+    background-color: #353b48;
+    color: white;
 }
 
 #form-manutenzione {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background: #eaeded;
-    padding: 15px;
+    background: #353b48;
+    padding: 12px;
     border-radius: 8px;
     margin-bottom: 15px;
 }
 
-#form-manutenzione input {
-    padding: 8px;
-    border: 1px solid #ccc;
+.form-group-inline {
+    margin-bottom: 8px;
+}
+
+.form-group-inline input {
+    width: 100%;
+    padding: 6px;
+    box-sizing: border-box;
+    background: #2f3640;
+    color: #fff;
+    border: 1px solid #718093;
     border-radius: 4px;
 }
 
 .voce-manutenzione {
-    background: white;
-    padding: 12px;
+    background: #353b48;
+    padding: 10px;
     border-radius: 6px;
     margin-bottom: 8px;
-    border-bottom: 2px solid #bdc3c7;
+    border-left: 3px solid #718093;
 }
 
 .vuoto {
-    text-align: center;
-    color: #7f8c8d;
+    color: #718093;
     font-style: italic;
+    text-align: center;
 }

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'garage-app-v2'; // <--- Ricorda di cambiare questo valore ogni volta che modifichi i file su GitHub
+const CACHE_NAME = 'garage-app-v5'; // Modificato il numero per forzare l'aggiornamento
 const ASSETS = [
   './',
   './index.html',
