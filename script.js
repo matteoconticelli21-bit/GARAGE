@@ -68,7 +68,6 @@ function mostraFormAuto() {
     nascondiTutteLeSchermate();
     document.getElementById('schermata-form-auto').classList.remove('hidden');
     document.getElementById('form-auto').reset();
-    // Ripristina l'evento onSubmit standard nel caso fosse impostato su modifica
     document.getElementById('form-auto').onsubmit = salvaNuovaAuto;
 }
 
@@ -129,7 +128,6 @@ function mostraDettaglioAuto(id) {
     renderManutenzioni();
 }
 
-// Funzione interna per il dettaglio
 function renderMiniScadenzaDettaglio(etichetta, dataStringa) {
     if (!dataStringa) return `<span class="stato-grigio">Non inserita</span>`;
     const info = calcolaGiorniEColoreDettagliato(dataStringa);
@@ -143,7 +141,7 @@ function nascondiTutteLeSchermate() {
     document.getElementById('schermata-impostazioni').classList.add('hidden');
 }
 
-// --- LOGICA APPLICAZIONE ---
+// --- LOGICA LISTA ED EVENTI CARD ---
 function renderListaAuto() {
     const contenitore = document.getElementById('lista-auto');
     if (listaAuto.length === 0) {
@@ -162,7 +160,7 @@ function renderListaAuto() {
             }
         };
 
-        const targaHTML = auto.targa ? `<span class="badge-targa">${auto.targa.toUpperCase()}</span>` : '';
+        const targaHTML = auto.targa ? `<div class="badge-targa">${auto.targa.toUpperCase()}</div>` : '';
 
         card.innerHTML = `
             <div class="card-auto-header">
