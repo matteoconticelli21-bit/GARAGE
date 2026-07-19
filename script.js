@@ -265,6 +265,7 @@ function renderManutenzioni() {
 
 function controllaScadenzePerNotifiche() {
     if (!("Notification" in window) || Notification.permission !== "granted") return;
+    if (!("serviceWorker" in navigator)) return;
 
     listaAuto.forEach(auto => {
         const identificativoAuto = auto.targa ? `${auto.marca} ${auto.modello} (${auto.targa})` : `${auto.marca} ${auto.modello}`;
@@ -293,14 +294,17 @@ function controllaScadenzePerNotifiche() {
                     messaggio = `Mancano ${giorniRimanenti} giorni alla scadenza della tua voce: ${s.tipo} (${identificativoAuto}).`;
                 }
 
-                navigator.serviceWorker.ready.then(registration => {
-                    registration.showNotification("Scadenza Imminente Garage! 🚗", {
-                        body: messaggio,
-                        icon: "icon.png",
-                        badge: "icon.png",
-                        vibrate: [200, 100, 200]
-                    });
-                });
+                // Controllo di sicurezza: verifichiamo che il service worker sia attivo e pronto prima di inviare
+                navigator.serviceWorker.getRegistration().then(registration => {
+                    if (registration) {
+                        registration.showNotification("Scadenza Imminente Garage! 🚗", {
+                            body: messaggio,
+                            icon: "icon.png",
+                            badge: "icon.png",
+                            vibrate: [200, 100, 200]
+                        });
+                    }
+                }).catch(err => console.log("Notifica asincrona non inviata: ambiente offline o locale non supportato."));
             }
         });
     });
