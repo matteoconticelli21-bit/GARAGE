@@ -1,22 +1,21 @@
-const CACHE_NAME = 'garage-app-v1';
-const assets = [
+const CACHE_NAME = 'garage-app-v2'; // <--- Ricorda di cambiare questo valore ogni volta che modifichi i file su GitHub
+const ASSETS = [
   './',
   './index.html',
   './style.css',
   './script.js',
-  './manifest.json'
+  './manifest.json',
+  './icon.png'
 ];
 
-// Installazione e salvataggio file in locale
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(assets);
+      return cache.addAll(ASSETS);
     })
   );
 });
 
-// Avvio dell'applicazione
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(keys => {
@@ -31,11 +30,10 @@ self.addEventListener('activate', e => {
   );
 });
 
-// Strategia di caricamento (Online prima, altrimenti Locale)
 self.addEventListener('fetch', e => {
   e.respondWith(
-    fetch(e.request).catch(() => {
-      return caches.match(e.request);
+    caches.match(e.request).then(cachedResponse => {
+      return cachedResponse || fetch(e.request);
     })
   );
 });
