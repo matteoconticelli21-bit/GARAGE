@@ -1,4 +1,4 @@
-const CACHE_NAME = 'garage-app-v5'; // Modificato il numero per forzare l'aggiornamento
+const CACHE_NAME = 'garage-app-v3';
 const ASSETS = [
   './',
   './index.html',

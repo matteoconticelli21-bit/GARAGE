@@ -12,6 +12,7 @@ if ("Notification" in window) {
 
 window.onload = function() {
     caricaDati();
+    inizializzaTema();
     controllaScadenzePerNotifiche();
 };
 
@@ -27,6 +28,94 @@ function salvaDati() {
     localStorage.setItem('automobili', JSON.stringify(listaAuto));
 }
 
+// --- GESTIONE TEMA ---
+function inizializzaTema() {
+    const temaSalvato = localStorage.getItem('tema-selezionato') || 'auto';
+    const selectTema = document.getElementById('select-tema');
+    if (selectTema) selectTema.value = temaSalvato;
+    applicatema(temaSalvato);
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        if (localStorage.getItem('tema-selezionato') === 'auto' || !localStorage.getItem('tema-selezionato')) {
+            applicatema('auto');
+        }
+    });
+}
+
+function cambiaTema(valore) {
+    localStorage.setItem('tema-selezionato', valore);
+    applicatema(valore);
+}
+
+function applicatema(tema) {
+    document.documentElement.removeAttribute('data-theme');
+    
+    if (tema === 'chiaro') {
+        document.documentElement.setAttribute('data-theme', 'light');
+    } else if (tema === 'scuro') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+        const preferisceScuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (preferisceScuro) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+        }
+    }
+}
+
+// --- NAVIGAZIONE SCHERMATE ---
+function mostraFormAuto() {
+    nascondiTutteLeSchermate();
+    document.getElementById('schermata-form-auto').classList.remove('hidden');
+    document.getElementById('form-auto').reset();
+}
+
+function mostraImpostazioni() {
+    nascondiTutteLeSchermate();
+    document.getElementById('schermata-impostazioni').classList.remove('hidden');
+}
+
+function mostraPrincipale() {
+    nascondiTutteLeSchermate();
+    document.getElementById('schermata-principale').classList.remove('hidden');
+    renderListaAuto();
+}
+
+function mostraDettaglioAuto(id) {
+    idAutoCorrente = id;
+    const auto = listaAuto.find(a => a.id === id);
+    if (!auto) return;
+
+    nascondiTutteLeSchermate();
+    document.getElementById('schermata-dettaglio').classList.remove('hidden');
+    
+    const intestazioneAuto = auto.targa ? `${auto.marca} ${auto.modello} (${auto.targa})` : `${auto.marca} ${auto.modello}`;
+    document.getElementById('dettaglio-titolo-auto').innerText = intestazioneAuto;
+
+    const testoNota = document.getElementById('testo-nota-visualizzato');
+    testoNota.innerText = auto.notaGenerica ? auto.notaGenerica : "Nessuna nota inserita.";
+    document.getElementById('area-modifica-nota').classList.add('hidden');
+    document.getElementById('btn-modifica-nota').classList.remove('hidden');
+
+    const divScadenze = document.getElementById('scadenze-auto-dettaglio');
+    divScadenze.innerHTML = `
+        <p><strong>Assicurazione:</strong> ${renderMiniScadenza("Stato", auto.assicurazione)} ${auto.assicurazione ? '('+auto.assicurazione+')' : ''}</p>
+        <p><strong>Bollo:</strong> ${renderMiniScadenza("Stato", auto.bollo)} ${auto.bollo ? '('+auto.bollo+')' : ''}</p>
+        <p><strong>Revisione:</strong> ${renderMiniScadenza("Stato", auto.revisione)} ${auto.revisione ? '('+auto.revisione+')' : ''}</p>
+    `;
+
+    renderManutenzioni();
+}
+
+function nascondiTutteLeSchermate() {
+    document.getElementById('schermata-principale').classList.add('hidden');
+    document.getElementById('schermata-form-auto').classList.add('hidden');
+    document.getElementById('schermata-dettaglio').classList.add('hidden');
+    document.getElementById('schermata-impostazioni').classList.add('hidden');
+}
+
+// --- LOGICA APPLICAZIONE ---
 function renderListaAuto() {
     const contenitore = document.getElementById('lista-auto');
     if (listaAuto.length === 0) {
@@ -40,8 +129,10 @@ function renderListaAuto() {
         card.className = 'card-auto';
         card.onclick = () => mostraDettaglioAuto(auto.id);
 
+        const intestazioneAuto = auto.targa ? `${auto.marca} ${auto.modello} (${auto.targa})` : `${auto.marca} ${auto.modello}`;
+
         card.innerHTML = `
-            <h3>${auto.nome}</h3>
+            <h3>${intestazioneAuto}</h3>
             <div class="mini-scadenze">
                 ${renderMiniScadenza("Assicurazione", auto.assicurazione)}
                 ${renderMiniScadenza("Bollo", auto.bollo)}
@@ -58,7 +149,6 @@ function renderMiniScadenza(etichetta, dataStringa) {
     return `<span class="badge ${info.colore}">${etichetta}: ${info.testo}</span>`;
 }
 
-// Logica per le soglie specifiche di colore (<30, <7, <=0)
 function calcolaGiorniEColore(dataStringa) {
     if (!dataStringa) return { testo: "Non inserita", colore: "grigio" };
 
@@ -77,29 +167,20 @@ function calcolaGiorniEColore(dataStringa) {
     return { testo: `${giorniRimanenti} gg`, colore: "verde" };
 }
 
-function mostraFormAuto() {
-    document.getElementById('schermata-principale').classList.add('hidden');
-    document.getElementById('schermata-dettaglio').classList.add('hidden');
-    document.getElementById('schermata-form-auto').classList.remove('hidden');
-    document.getElementById('form-auto').reset();
-}
-
-function mostraPrincipale() {
-    document.getElementById('schermata-form-auto').classList.add('hidden');
-    document.getElementById('schermata-dettaglio').classList.add('hidden');
-    document.getElementById('schermata-principale').classList.remove('hidden');
-    renderListaAuto();
-}
-
 function salvaNuovaAuto(event) {
     event.preventDefault();
-    const nome = document.getElementById('nomeAuto').value.trim();
-    if (!nome) return;
+    const marca = document.getElementById('marcaAuto').value.trim();
+    const modello = document.getElementById('modelloAuto').value.trim();
+    const targa = document.getElementById('targaAuto').value.trim();
+    
+    if (!marca || !modello) return;
 
-    // Salvataggio flessibile: se il campo è vuoto inserisce ""
     const nuovaAuto = {
         id: Date.now(),
-        nome: nome,
+        marca: marca,
+        modello: modello,
+        targa: targa,
+        nome: `${marca} ${modello}`.trim(),
         assicurazione: document.getElementById('scadAssicurazione').value || "",
         bollo: document.getElementById('scadBollo').value || "",
         revisione: document.getElementById('scadRevisione').value || "",
@@ -111,30 +192,6 @@ function salvaNuovaAuto(event) {
     salvaDati();
     controllaScadenzePerNotifiche();
     mostraPrincipale();
-}
-
-function mostraDettaglioAuto(id) {
-    idAutoCorrente = id;
-    const auto = listaAuto.find(a => a.id === id);
-    if (!auto) return;
-
-    document.getElementById('schermata-principale').classList.add('hidden');
-    document.getElementById('schermata-dettaglio').classList.remove('hidden');
-    document.getElementById('dettaglio-titolo-auto').innerText = auto.nome;
-
-    const testoNota = document.getElementById('testo-nota-visualizzato');
-    testoNota.innerText = auto.notaGenerica ? auto.notaGenerica : "Nessuna nota inserita.";
-    document.getElementById('area-modifica-nota').classList.add('hidden');
-    document.getElementById('btn-modifica-nota').classList.remove('hidden');
-
-    const divScadenze = document.getElementById('scadenze-auto-dettaglio');
-    divScadenze.innerHTML = `
-        <p><strong>Assicurazione:</strong> ${renderMiniScadenza("Stato", auto.assicurazione)} ${auto.assicurazione ? '('+auto.assicurazione+')' : ''}</p>
-        <p><strong>Bollo:</strong> ${renderMiniScadenza("Stato", auto.bollo)} ${auto.bollo ? '('+auto.bollo+')' : ''}</p>
-        <p><strong>Revisione:</strong> ${renderMiniScadenza("Stato", auto.revisione)} ${auto.revisione ? '('+auto.revisione+')' : ''}</p>
-    `;
-
-    renderManutenzioni();
 }
 
 function mostraAreaNota() {
@@ -174,7 +231,6 @@ function aggiungiManutenzione() {
             km: parseInt(km)
         });
 
-        // Ordinamento cronologico inverso (dalla più recente)
         auto.manutenzioni.sort((a, b) => new Date(b.data) - new Date(a.data));
 
         salvaDati();
@@ -207,11 +263,11 @@ function renderManutenzioni() {
     });
 }
 
-// Controllo automatico delle soglie esatte (30, 7, 0 giorni) per attivare i promemoria di sistema
 function controllaScadenzePerNotifiche() {
     if (!("Notification" in window) || Notification.permission !== "granted") return;
 
     listaAuto.forEach(auto => {
+        const identificativoAuto = auto.targa ? `${auto.marca} ${auto.modello} (${auto.targa})` : `${auto.marca} ${auto.modello}`;
         const scadenze = [
             { tipo: "Assicurazione", data: auto.assicurazione },
             { tipo: "Bollo", data: auto.bollo },
@@ -232,9 +288,9 @@ function controllaScadenzePerNotifiche() {
             if (giorniRimanenti === 30 || giorniRimanenti === 7 || giorniRimanenti === 0) {
                 let messaggio = "";
                 if (giorniRimanenti === 0) {
-                    messaggio = `Oggi scade il termine per la gestione di: ${s.tipo} (${auto.nome}).`;
+                    messaggio = `Oggi scade il termine per la gestione di: ${s.tipo} (${identificativoAuto}).`;
                 } else {
-                    messaggio = `Mancano ${giorniRimanenti} giorni alla scadenza della tua voce: ${s.tipo} (${auto.nome}).`;
+                    messaggio = `Mancano ${giorniRimanenti} giorni alla scadenza della tua voce: ${s.tipo} (${identificativoAuto}).`;
                 }
 
                 navigator.serviceWorker.ready.then(registration => {

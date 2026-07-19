@@ -1,33 +1,67 @@
-/* Layout scuro coordinato ed angoli arrotondati originale */
+:root, html[data-theme="dark"] {
+    --bg-principale: #1e272e;
+    --bg-container: #2f3640;
+    --bg-elementi: #353b48;
+    --bg-input: #2f3640;
+    --testo-primario: #f5f6fa;
+    --testo-secondario: #dcdde1;
+    --bordo: #718093;
+}
+
+html[data-theme="light"] {
+    --bg-principale: #f5f6fa;
+    --bg-container: #ffffff;
+    --bg-elementi: #f1f2f6;
+    --bg-input: #ffffff;
+    --testo-primario: #2f3640;
+    --testo-secondario: #718093;
+    --bordo: #ced6e0;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    background-color: #1e272e;
-    color: #f5f6fa;
+    background-color: var(--bg-principale);
+    color: var(--testo-primario);
     margin: 0;
     padding: 0;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .container {
     max-width: 500px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #2f3640;
+    background-color: var(--bg-container);
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
 header {
-    border-bottom: 1px solid #718093;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--bordo);
     padding-bottom: 15px;
     margin-bottom: 20px;
 }
 
-h1, h2, h3 {
-    margin: 5px 0;
-    color: #f5f6fa;
+.header-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-/* Pulsanti principali */
+.header-azioni {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+h1, h2, h3 {
+    margin: 5px 0;
+    color: var(--testo-primario);
+}
+
 button {
     background-color: #718093;
     color: #f5f6fa;
@@ -39,7 +73,22 @@ button {
 }
 
 button:active {
-    background-color: #2f3640;
+    background-color: var(--bg-container);
+}
+
+.btn-icona {
+    background: transparent;
+    font-size: 22px;
+    padding: 6px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-icona:active {
+    background-color: var(--bg-elementi);
 }
 
 .btn-back {
@@ -50,10 +99,12 @@ button:active {
     width: 100%;
     background-color: #4cd137;
     padding: 12px;
+    color: white;
 }
 
 .btn-antracite {
     background-color: #3d3d3d;
+    color: white;
     width: 100%;
     margin-top: 5px;
 }
@@ -62,13 +113,12 @@ button:active {
     display: none !important;
 }
 
-/* Schede Elementi */
 .card-auto {
-    background: #353b48;
+    background: var(--bg-elementi);
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 12px;
-    border: 1px solid #718093;
+    border: 1px solid var(--bordo);
 }
 
 .mini-scadenze {
@@ -78,23 +128,55 @@ button:active {
     gap: 6px;
 }
 
-/* Badge di avviso stato configurati sulle soglie */
+/* Impostazioni */
+.opzioni-impostazioni {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.opzione-gruppo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.opzione-gruppo label {
+    font-weight: bold;
+}
+
+.opzione-gruppo select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid var(--bordo);
+    background-color: var(--bg-elementi);
+    color: var(--testo-primario);
+    font-size: 14px;
+}
+
+.info-futuro {
+    text-align: center;
+    color: var(--testo-secondario);
+    margin-top: 10px;
+}
+
+/* Badge Stati */
 .badge {
     padding: 4px 8px;
     border-radius: 4px;
     font-size: 11px;
     font-weight: bold;
 }
-
 .badge.verde { background-color: #4cd137; color: #fff; }
 .badge.arancione { background-color: #e1b12c; color: #fff; }
 .badge.rosso { background-color: #e84118; color: #fff; }
 .badge.nero { background-color: #000000; color: #fff; }
 .badge.grigio { background-color: #7f8c8d; color: #fff; }
 
-/* Box Note Libere integrato */
+/* Box Note */
 #sezione-nota-generica {
-    background: #353b48;
+    background: var(--bg-elementi);
     padding: 12px;
     border-radius: 8px;
     margin: 15px 0;
@@ -103,7 +185,7 @@ button:active {
 
 #testo-nota-visualizzato {
     font-style: italic;
-    color: #dcdde1;
+    color: var(--testo-secondario);
     margin: 6px 0;
     white-space: pre-wrap;
 }
@@ -113,18 +195,19 @@ button:active {
     box-sizing: border-box;
     padding: 8px;
     border-radius: 4px;
-    background-color: #2f3640;
-    color: #fff;
-    border: 1px solid #718093;
+    background-color: var(--bg-input);
+    color: var(--testo-primario);
+    border: 1px solid var(--bordo);
 }
 
 .btn-salva-nota {
     background-color: #4cd137;
+    color: white;
     width: 100%;
     margin-top: 4px;
 }
 
-/* Gestione Campi */
+/* Form */
 .form-group {
     margin-bottom: 15px;
 }
@@ -139,13 +222,13 @@ button:active {
     padding: 10px;
     box-sizing: border-box;
     border-radius: 6px;
-    border: 1px solid #718093;
-    background-color: #353b48;
-    color: white;
+    border: 1px solid var(--bordo);
+    background-color: var(--bg-elementi);
+    color: var(--testo-primario);
 }
 
 #form-manutenzione {
-    background: #353b48;
+    background: var(--bg-elementi);
     padding: 12px;
     border-radius: 8px;
     margin-bottom: 15px;
@@ -159,18 +242,18 @@ button:active {
     width: 100%;
     padding: 6px;
     box-sizing: border-box;
-    background: #2f3640;
-    color: #fff;
-    border: 1px solid #718093;
+    background: var(--bg-input);
+    color: var(--testo-primario);
+    border: 1px solid var(--bordo);
     border-radius: 4px;
 }
 
 .voce-manutenzione {
-    background: #353b48;
+    background: var(--bg-elementi);
     padding: 10px;
     border-radius: 6px;
     margin-bottom: 8px;
-    border-left: 3px solid #718093;
+    border-left: 3px solid var(--bordo);
 }
 
 .vuoto {
