@@ -1,4 +1,4 @@
-const CACHE_NAME = 'garage-app-v10';
+const CACHE_NAME = 'garage-app-v5';
 const ASSETS = [
   './',
   './index.html',
