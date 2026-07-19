@@ -110,7 +110,6 @@ button:active {
     margin-top: 5px;
 }
 
-/* Regola globale assoluta per nascondere gli elementi */
 .hidden {
     display: none !important;
 }
@@ -230,11 +229,39 @@ button:active {
     color: var(--testo-primario);
 }
 
+/* Header Sezione Manutenzioni */
+.header-manutenzioni {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    margin-top: 20px;
+    border-bottom: 1px dashed var(--bordo);
+    padding-bottom: 8px;
+}
+
+.header-manutenzioni h3 {
+    margin: 0;
+}
+
+.btn-compatto {
+    background-color: #487eb0;
+    color: white;
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 4px;
+}
+
+.btn-compatto.btn-chiudi {
+    background-color: #7f8c8d;
+}
+
 #form-manutenzione {
     background: var(--bg-elementi);
-    padding: 12px;
+    padding: 15px;
     border-radius: 8px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    border: 1px solid var(--bordo);
 }
 
 .form-group-inline {

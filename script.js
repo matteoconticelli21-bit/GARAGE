@@ -82,6 +82,21 @@ function mostraPrincipale() {
     renderListaAuto();
 }
 
+function toggleFormManutenzione() {
+    const form = document.getElementById('form-manutenzione');
+    const btn = document.getElementById('btn-toggle-manutenzione');
+    
+    if (form.classList.contains('hidden')) {
+        form.classList.remove('hidden');
+        btn.innerText = '✕ Chiudi';
+        btn.classList.add('btn-chiudi');
+    } else {
+        form.classList.add('hidden');
+        btn.innerText = '+ Nuovo Intervento';
+        btn.classList.remove('btn-chiudi');
+    }
+}
+
 function mostraDettaglioAuto(id) {
     idAutoCorrente = id;
     const auto = listaAuto.find(a => a.id === id);
@@ -97,6 +112,12 @@ function mostraDettaglioAuto(id) {
     testoNota.innerText = auto.notaGenerica ? auto.notaGenerica : "Nessuna nota inserita.";
     document.getElementById('area-modifica-nota').classList.add('hidden');
     document.getElementById('btn-modifica-nota').classList.remove('hidden');
+
+    // Il pannello di inserimento interventi parte chiuso di default
+    document.getElementById('form-manutenzione').classList.add('hidden');
+    const btnToggle = document.getElementById('btn-toggle-manutenzione');
+    btnToggle.innerText = '+ Nuovo Intervento';
+    btnToggle.classList.remove('btn-chiudi');
 
     const divScadenze = document.getElementById('scadenze-auto-dettaglio');
     divScadenze.innerHTML = `
@@ -239,6 +260,9 @@ function aggiungiManutenzione() {
         document.getElementById('manutenzione-desc').value = '';
         document.getElementById('manutenzione-data').value = '';
         document.getElementById('manutenzione-km').value = '';
+
+        // Chiude il pannello una volta inserito con successo
+        toggleFormManutenzione();
     }
 }
 
@@ -294,7 +318,6 @@ function controllaScadenzePerNotifiche() {
                     messaggio = `Mancano ${giorniRimanenti} giorni alla scadenza della tua voce: ${s.tipo} (${identificativoAuto}).`;
                 }
 
-                // Controllo di sicurezza: verifichiamo che il service worker sia attivo e pronto prima di inviare
                 navigator.serviceWorker.getRegistration().then(registration => {
                     if (registration) {
                         registration.showNotification("Scadenza Imminente Garage! 🚗", {
@@ -304,7 +327,7 @@ function controllaScadenzePerNotifiche() {
                             vibrate: [200, 100, 200]
                         });
                     }
-                }).catch(err => console.log("Notifica asincrona non inviata: ambiente offline o locale non supportato."));
+                }).catch(err => console.log("Errore invio notifica in ambiente locale:", err));
             }
         });
     });

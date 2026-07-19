@@ -42,7 +42,6 @@
                     <option value="scuro">Scuro</option>
                 </select>
             </div>
-            <!-- Spazio per future impostazioni (es. backup, gestione notifiche, ecc.) -->
             <div class="opzione-gruppo info-futuro">
                 <small>Altre opzioni verranno aggiunte qui in futuro.</small>
             </div>
@@ -110,9 +109,12 @@
 
         <!-- Storico Manutenzioni -->
         <div class="sezione-manutenzioni">
-            <h3>Storico Interventi</h3>
+            <div class="header-manutenzioni">
+                <h3>Storico Interventi</h3>
+                <button id="btn-toggle-manutenzione" class="btn-compatto" onclick="toggleFormManutenzione()">+ Nuovo Intervento</button>
+            </div>
             
-            <div id="form-manutenzione">
+            <div id="form-manutenzione" class="hidden">
                 <div class="form-group-inline">
                     <label>Intervento:</label>
                     <input type="text" id="manutenzione-desc" placeholder="Descrizione">
