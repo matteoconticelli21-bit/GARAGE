@@ -51,10 +51,12 @@ header {
     align-items: center;
 }
 
-.header-azioni {
+/* Contenitore per allineare il pulsante sopra i relativi titoli */
+.blocco-azione-superiore {
     display: flex;
-    align-items: center;
-    gap: 8px;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+    width: 100%;
 }
 
 h1, h2, h3 {
@@ -176,26 +178,48 @@ button:active {
 .badge.nero { background-color: #000000; color: #fff; }
 .badge.grigio { background-color: #7f8c8d; color: #fff; }
 
-/* Box Note */
-#sezione-nota-generica {
-    background: var(--bg-elementi);
-    padding: 12px;
-    border-radius: 8px;
-    margin: 15px 0;
-    border-left: 4px solid #487eb0;
+/* Box Nota Super Compatta */
+.nota-compatta {
+    margin: 10px 0 20px 0;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--bordo);
+}
+
+.nota-header-riga {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.nota-label {
+    color: var(--testo-primario);
 }
 
 #testo-nota-visualizzato {
     font-style: italic;
     color: var(--testo-secondario);
-    margin: 6px 0;
-    white-space: pre-wrap;
+    flex-grow: 1;
+}
+
+.btn-matita {
+    background: transparent;
+    border: none;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#area-modifica-nota {
+    margin-top: 8px;
+    display: flex;
+    gap: 6px;
+    width: 100%;
 }
 
 #input-nota-generica {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 8px;
+    flex-grow: 1;
+    padding: 6px;
     border-radius: 4px;
     background-color: var(--bg-input);
     color: var(--testo-primario);
@@ -205,8 +229,8 @@ button:active {
 .btn-salva-nota {
     background-color: #4cd137;
     color: white;
-    width: 100%;
-    margin-top: 4px;
+    padding: 6px 12px;
+    border-radius: 4px;
 }
 
 /* Form */
@@ -229,15 +253,16 @@ button:active {
     color: var(--testo-primario);
 }
 
-/* Header Sezione Manutenzioni */
+/* Layout Sezione Manutenzioni */
 .header-manutenzioni {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
-    margin-top: 20px;
+    margin-top: 5px;
     border-bottom: 1px dashed var(--bordo);
     padding-bottom: 8px;
+    width: 100%;
 }
 
 .header-manutenzioni h3 {
@@ -250,6 +275,7 @@ button:active {
     padding: 6px 12px;
     font-size: 13px;
     border-radius: 4px;
+    white-space: nowrap;
 }
 
 .btn-compatto.btn-chiudi {

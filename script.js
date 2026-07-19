@@ -1,7 +1,6 @@
 let listaAuto = [];
 let idAutoCorrente = null;
 
-// Richiesta permessi notifiche
 if ("Notification" in window) {
     Notification.requestPermission().then(permission => {
         if (permission === "granted") {
@@ -92,7 +91,7 @@ function toggleFormManutenzione() {
         btn.classList.add('btn-chiudi');
     } else {
         form.classList.add('hidden');
-        btn.innerText = '+ Nuovo Intervento';
+        btn.innerText = '+ Nuova Manutenzione';
         btn.classList.remove('btn-chiudi');
     }
 }
@@ -113,10 +112,9 @@ function mostraDettaglioAuto(id) {
     document.getElementById('area-modifica-nota').classList.add('hidden');
     document.getElementById('btn-modifica-nota').classList.remove('hidden');
 
-    // Il pannello di inserimento interventi parte chiuso di default
     document.getElementById('form-manutenzione').classList.add('hidden');
     const btnToggle = document.getElementById('btn-toggle-manutenzione');
-    btnToggle.innerText = '+ Nuovo Intervento';
+    btnToggle.innerText = '+ Nuova Manutenzione';
     btnToggle.classList.remove('btn-chiudi');
 
     const divScadenze = document.getElementById('scadenze-auto-dettaglio');
@@ -261,7 +259,6 @@ function aggiungiManutenzione() {
         document.getElementById('manutenzione-data').value = '';
         document.getElementById('manutenzione-km').value = '';
 
-        // Chiude il pannello una volta inserito con successo
         toggleFormManutenzione();
     }
 }
@@ -271,7 +268,7 @@ function renderManutenzioni() {
     const auto = listaAuto.find(a => a.id === idAutoCorrente);
     
     if (!auto.manutenzioni || auto.manutenzioni.length === 0) {
-        contenitore.innerHTML = '<p class="vuoto">Nessun intervento registrato.</p>';
+        contenitore.innerHTML = '<p class="vuoto">Nessuna manutenzione registrata.</p>';
         return;
     }
 
@@ -327,7 +324,7 @@ function controllaScadenzePerNotifiche() {
                             vibrate: [200, 100, 200]
                         });
                     }
-                }).catch(err => console.log("Errore invio notifica in ambiente locale:", err));
+                }).catch(err => console.log("Errore invio notifica:", err));
             }
         });
     });

@@ -14,14 +14,14 @@
     <div id="schermata-principale" class="container">
         <header class="header-main">
             <h1>🚗 Il Mio Garage</h1>
-            <div class="header-azioni">
-                <button id="btn-apri-form" onclick="mostraFormAuto()">+ Auto</button>
-                <!-- Icona Ingranaggio Impostazioni -->
-                <button id="btn-impostazioni" class="btn-icona" onclick="mostraImpostazioni()" title="Impostazioni">⚙️</button>
-            </div>
+            <button id="btn-impostazioni" class="btn-icona" onclick="mostraImpostazioni()" title="Impostazioni">⚙️</button>
         </header>
 
         <main>
+            <!-- Pulsante sopra al titolo delle auto -->
+            <div class="blocco-azione-superiore">
+                <button id="btn-apri-form" onclick="mostraFormAuto()">+ Auto</button>
+            </div>
             <h2>Le Mie Auto</h2>
             <div id="lista-auto"></div>
         </main>
@@ -90,15 +90,17 @@
             <h2 id="dettaglio-titolo-auto">Dettaglio Auto</h2>
         </header>
 
-        <!-- Sezione Nota Libera Generica -->
-        <div id="sezione-nota-generica">
-            <p><strong>Nota Libera:</strong></p>
-            <div id="testo-nota-visualizzato">Nessuna nota inserita.</div>
-            <div id="area-modifica-nota" class="hidden">
-                <textarea id="input-nota-generica" rows="3" placeholder="Scrivi qui una nota libera..."></textarea>
-                <button class="btn-salva-nota" onclick="salvaNotaGenerica()">Salva Nota</button>
+        <!-- Sezione Nota Libera Compatta -->
+        <div id="sezione-nota-generica" class="nota-compatta">
+            <div class="nota-header-riga">
+                <span class="nota-label"><strong>Nota:</strong></span>
+                <span id="testo-nota-visualizzato">Nessuna nota inserita.</span>
+                <button id="btn-modifica-nota" class="btn-matita" onclick="mostraAreaNota()" title="Modifica nota">✏️</button>
             </div>
-            <button id="btn-modifica-nota" class="btn-antracite" onclick="mostraAreaNota()">Aggiungi/Modifica Nota</button>
+            <div id="area-modifica-nota" class="hidden">
+                <textarea id="input-nota-generica" rows="2" placeholder="Scrivi una nota..."></textarea>
+                <button class="btn-salva-nota" onclick="salvaNotaGenerica()">Salva</button>
+            </div>
         </div>
 
         <!-- Stato Scadenze -->
@@ -109,14 +111,17 @@
 
         <!-- Storico Manutenzioni -->
         <div class="sezione-manutenzioni">
+            <!-- Pulsante sopra al titolo dello storico manutenzioni -->
+            <div class="blocco-azione-superiore">
+                <button id="btn-toggle-manutenzione" class="btn-compatto" onclick="toggleFormManutenzione()">+ Nuova Manutenzione</button>
+            </div>
             <div class="header-manutenzioni">
-                <h3>Storico Interventi</h3>
-                <button id="btn-toggle-manutenzione" class="btn-compatto" onclick="toggleFormManutenzione()">+ Nuovo Intervento</button>
+                <h3>Storico Manutenzioni</h3>
             </div>
             
             <div id="form-manutenzione" class="hidden">
                 <div class="form-group-inline">
-                    <label>Intervento:</label>
+                    <label>Manutenzione:</label>
                     <input type="text" id="manutenzione-desc" placeholder="Descrizione">
                 </div>
                 <div class="form-group-inline">
