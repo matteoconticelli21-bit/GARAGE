@@ -51,7 +51,7 @@ header {
     align-items: center;
 }
 
-/* Contenitore per allineare il pulsante sopra i relativi titoli */
+/* Contenitore pulsanti posizionati sopra i titoli */
 .blocco-azione-superiore {
     display: flex;
     justify-content: flex-start;
@@ -116,20 +116,125 @@ button:active {
     display: none !important;
 }
 
-.card-auto {
+/* --- GRAFICA STILE ESTESO RIPRISTINATO --- */
+.card-auto-estesa {
     background: var(--bg-elementi);
-    padding: 15px;
     border-radius: 8px;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     border: 1px solid var(--bordo);
+    border-left: 6px solid #3498db; /* Bordo laterale azzurro */
+    padding: 16px;
     cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
 }
 
-.mini-scadenze {
-    margin-top: 8px;
+.card-auto-estesa:active {
+    transform: scale(0.99);
+}
+
+.card-auto-header {
     display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
     flex-wrap: wrap;
+    gap: 10px;
+}
+
+.info-principali h3 {
+    margin: 0 0 6px 0;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
     gap: 6px;
+    color: #2c3e50;
+}
+
+html[data-theme="dark"] .info-principali h3 {
+    color: var(--testo-primario);
+}
+
+.freccia-dettaglio {
+    color: #3498db;
+    font-size: 16px;
+}
+
+.badge-targa {
+    background-color: #e1b12c;
+    color: #fff;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.azioni-card {
+    display: flex;
+    gap: 6px;
+}
+
+.btn-modifica-card {
+    background-color: #3498db;
+    color: white;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+
+.btn-elimina-card {
+    background-color: #e74c3c;
+    color: white;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+
+.linea-separatrice {
+    height: 1px;
+    background-color: var(--bordo);
+    opacity: 0.3;
+    margin: 12px 0;
+}
+
+.elenco-scadenze-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.riga-scadenza {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    align-items: center;
+}
+
+.scadenza-etichetta {
+    color: var(--testo-secondario);
+}
+
+.data-scadenza {
+    font-weight: 500;
+}
+
+.scadenza-stato {
+    font-weight: bold;
+    text-align: right;
+}
+
+/* Stati Testuali originari */
+.stato-nero { color: #000000; font-weight: 800; }
+.stato-rosso { color: #e74c3c; }
+.stato-arancione { color: #e67e22; }
+.stato-verde { color: #2ecc71; }
+.testo-grigio { color: #95a5a6; font-weight: normal; }
+
+html[data-theme="dark"] .stato-nero {
+    color: #ffffff;
+    background-color: #000000;
+    padding: 1px 4px;
+    border-radius: 3px;
 }
 
 /* Impostazioni */
@@ -164,19 +269,6 @@ button:active {
     color: var(--testo-secondario);
     margin-top: 10px;
 }
-
-/* Badge Stati */
-.badge {
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: bold;
-}
-.badge.verde { background-color: #4cd137; color: #fff; }
-.badge.arancione { background-color: #e1b12c; color: #fff; }
-.badge.rosso { background-color: #e84118; color: #fff; }
-.badge.nero { background-color: #000000; color: #fff; }
-.badge.grigio { background-color: #7f8c8d; color: #fff; }
 
 /* Box Nota Super Compatta */
 .nota-compatta {

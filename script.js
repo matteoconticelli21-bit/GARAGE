@@ -68,6 +68,8 @@ function mostraFormAuto() {
     nascondiTutteLeSchermate();
     document.getElementById('schermata-form-auto').classList.remove('hidden');
     document.getElementById('form-auto').reset();
+    // Ripristina l'evento onSubmit standard nel caso fosse impostato su modifica
+    document.getElementById('form-auto').onsubmit = salvaNuovaAuto;
 }
 
 function mostraImpostazioni() {
@@ -119,12 +121,19 @@ function mostraDettaglioAuto(id) {
 
     const divScadenze = document.getElementById('scadenze-auto-dettaglio');
     divScadenze.innerHTML = `
-        <p><strong>Assicurazione:</strong> ${renderMiniScadenza("Stato", auto.assicurazione)} ${auto.assicurazione ? '('+auto.assicurazione+')' : ''}</p>
-        <p><strong>Bollo:</strong> ${renderMiniScadenza("Stato", auto.bollo)} ${auto.bollo ? '('+auto.bollo+')' : ''}</p>
-        <p><strong>Revisione:</strong> ${renderMiniScadenza("Stato", auto.revisione)} ${auto.revisione ? '('+auto.revisione+')' : ''}</p>
+        <p><strong>Assicurazione:</strong> ${renderMiniScadenzaDettaglio("Stato", auto.assicurazione)} ${auto.assicurazione ? '('+new Date(auto.assicurazione).toLocaleDateString('it-IT')+')' : ''}</p>
+        <p><strong>Bollo:</strong> ${renderMiniScadenzaDettaglio("Stato", auto.bollo)} ${auto.bollo ? '('+new Date(auto.bollo).toLocaleDateString('it-IT')+')' : ''}</p>
+        <p><strong>Revisione:</strong> ${renderMiniScadenzaDettaglio("Stato", auto.revisione)} ${auto.revisione ? '('+new Date(auto.revisione).toLocaleDateString('it-IT')+')' : ''}</p>
     `;
 
     renderManutenzioni();
+}
+
+// Funzione interna per il dettaglio
+function renderMiniScadenzaDettaglio(etichetta, dataStringa) {
+    if (!dataStringa) return `<span class="stato-grigio">Non inserita</span>`;
+    const info = calcolaGiorniEColoreDettagliato(dataStringa);
+    return `<span class="${info.classeColore}">${info.testo}</span>`;
 }
 
 function nascondiTutteLeSchermate() {
@@ -145,32 +154,60 @@ function renderListaAuto() {
     contenitore.innerHTML = '';
     listaAuto.forEach(auto => {
         const card = document.createElement('div');
-        card.className = 'card-auto';
-        card.onclick = () => mostraDettaglioAuto(auto.id);
+        card.className = 'card-auto-estesa';
+        
+        card.onclick = (e) => {
+            if (!e.target.closest('button') && !e.target.closest('.azioni-card')) {
+                mostraDettaglioAuto(auto.id);
+            }
+        };
 
-        const intestazioneAuto = auto.targa ? `${auto.marca} ${auto.modello} (${auto.targa})` : `${auto.marca} ${auto.modello}`;
+        const targaHTML = auto.targa ? `<span class="badge-targa">${auto.targa.toUpperCase()}</span>` : '';
 
         card.innerHTML = `
-            <h3>${intestazioneAuto}</h3>
-            <div class="mini-scadenze">
-                ${renderMiniScadenza("Assicurazione", auto.assicurazione)}
-                ${renderMiniScadenza("Bollo", auto.bollo)}
-                ${renderMiniScadenza("Revisione", auto.revisione)}
+            <div class="card-auto-header">
+                <div class="info-principali">
+                    <h3>🚗 ${auto.marca} ${auto.modello} <span class="freccia-dettaglio">→</span></h3>
+                    ${targaHTML}
+                </div>
+                <div class="azioni-card">
+                    <button class="btn-modifica-card" onclick="avviaModificaAuto(${auto.id})">Modifica</button>
+                    <button class="btn-elimina-card" onclick="eliminaAuto(${auto.id})">Elimina</button>
+                </div>
+            </div>
+            <div class="linea-separatrice"></div>
+            <div class="elenco-scadenze-card">
+                ${renderRigaScadenza("💰 Bollo", auto.bollo)}
+                ${renderRigaScadenza("🛡️ Assicurazione", auto.assicurazione)}
+                ${renderRigaScadenza("🔧 Revisione", auto.revisione)}
             </div>
         `;
         contenitore.appendChild(card);
     });
 }
 
-function renderMiniScadenza(etichetta, dataStringa) {
-    if (!dataStringa) return `<span class="badge grigio">${etichetta}: -</span>`;
-    const info = calcolaGiorniEColore(dataStringa);
-    return `<span class="badge ${info.colore}">${etichetta}: ${info.testo}</span>`;
+function renderRigaScadenza(etichetta, dataStringa) {
+    if (!dataStringa) {
+        return `
+            <div class="riga-scadenza">
+                <span class="scadenza-etichetta">${etichetta}: --/--/----</span>
+                <span class="scadenza-stato testo-grigio">Non inserita</span>
+            </div>
+        `;
+    }
+
+    const info = calcolaGiorniEColoreDettagliato(dataStringa);
+    const dataFormattata = new Date(dataStringa).toLocaleDateString('it-IT');
+
+    return `
+        <div class="riga-scadenza">
+            <span class="scadenza-etichetta">${etichetta}: <span class="data-scadenza">${dataFormattata}</span></span>
+            <span class="scadenza-stato ${info.classeColore}">${info.testo}</span>
+        </div>
+    `;
 }
 
-function calcolaGiorniEColore(dataStringa) {
-    if (!dataStringa) return { testo: "Non inserita", colore: "grigio" };
-
+function calcolaGiorniEColoreDettagliato(dataStringa) {
     const oggi = new Date();
     oggi.setHours(0,0,0,0);
     const dataScad = new Date(dataStringa);
@@ -179,11 +216,55 @@ function calcolaGiorniEColore(dataStringa) {
     const diffTempo = dataScad - oggi;
     const giorniRimanenti = Math.ceil(diffTempo / (1000 * 60 * 60 * 24));
 
-    if (giorniRimanenti < 0) return { testo: `Scaduta (${giorniRimanenti} gg)`, colore: "nero" };
-    if (giorniRimanenti === 0) return { testo: "Scade Oggi!", colore: "rosso" };
-    if (giorniRimanenti <= 7) return { testo: `${giorniRimanenti} gg`, colore: "rosso" };
-    if (giorniRimanenti <= 30) return { testo: `${giorniRimanenti} gg`, colore: "arancione" };
-    return { testo: `${giorniRimanenti} gg`, colore: "verde" };
+    if (giorniRimanenti < 0) {
+        return { testo: `SCADUTO da ${Math.abs(giorniRimanenti)} gg`, classeColore: "stato-nero" };
+    }
+    if (giorniRimanenti === 0) {
+        return { testo: "SCADE OGGI!", classeColore: "stato-rosso" };
+    }
+    if (giorniRimanenti <= 7) {
+        return { testo: `URGENTE! (${giorniRimanenti} gg)`, classeColore: "stato-rosso" };
+    }
+    if (giorniRimanenti <= 30) {
+        return { testo: `In scadenza (${giorniRimanenti} gg)`, classeColore: "stato-arancione" };
+    }
+    return { testo: `Regolare (${giorniRimanenti} gg)`, classeColore: "stato-verde" };
+}
+
+function eliminaAuto(id) {
+    if (confirm("Sei sicuro di voler eliminare questa vettura e tutto il suo storico?")) {
+        listaAuto = listaAuto.filter(a => a.id !== id);
+        salvaDati();
+        renderListaAuto();
+    }
+}
+
+function avviaModificaAuto(id) {
+    const auto = listaAuto.find(a => a.id === id);
+    if (!auto) return;
+    
+    mostraFormAuto();
+    document.getElementById('marcaAuto').value = auto.marca;
+    document.getElementById('modelloAuto').value = auto.modello;
+    document.getElementById('targaAuto').value = auto.targa || "";
+    document.getElementById('scadAssicurazione').value = auto.assicurazione || "";
+    document.getElementById('scadBollo').value = auto.bollo || "";
+    document.getElementById('scadRevisione').value = auto.revisione || "";
+    
+    const form = document.getElementById('form-auto');
+    form.onsubmit = function(event) {
+        event.preventDefault();
+        auto.marca = document.getElementById('marcaAuto').value.trim();
+        auto.modello = document.getElementById('modelloAuto').value.trim();
+        auto.targa = document.getElementById('targaAuto').value.trim();
+        auto.assicurazione = document.getElementById('scadAssicurazione').value || "";
+        auto.bollo = document.getElementById('scadBollo').value || "";
+        auto.revisione = document.getElementById('scadRevisione').value || "";
+        
+        salvaDati();
+        form.onsubmit = salvaNuovaAuto;
+        mostraPrincipale();
+    };
 }
 
 function salvaNuovaAuto(event) {
@@ -278,7 +359,7 @@ function renderManutenzioni() {
         voce.className = 'voce-manutenzione';
         voce.innerHTML = `
             <div><strong>${m.descrizione}</strong></div>
-            <small>Data: ${m.data} | Chilometri: ${m.km.toLocaleString()} Km</small>
+            <small>Data: ${new Date(m.data).toLocaleDateString('it-IT')} | Chilometri: ${m.km.toLocaleString()} Km</small>
         `;
         contenitore.appendChild(voce);
     });
